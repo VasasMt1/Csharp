@@ -1,0 +1,157 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace projeckt
+{
+    internal class Program
+    {
+        static void valami()
+        {
+            Console.WriteLine("_______Heti mozgáshoz tartozó adatok kielemzése._______");
+        }
+        static void valami2()
+        {
+            Console.WriteLine("________________________________________________________");
+        }
+        static void Main(string[] args)
+        {
+            List<List<object>> hetiedzes = new List<List<object>>();
+            string file1 = @"C:\Users\Máté\Desktop\hmtl\c#\projeckt\edzes.txt ";
+            foreach (string sor in File.ReadLines(file1))
+            {
+                string[] edzes = sor.Trim().Split(' ');
+                List<object> adatsor = new List<object>();
+                adatsor.Add(edzes[0]);
+                adatsor.Add(int.Parse(edzes[1]));
+                adatsor.Add(int.Parse(edzes[2]));
+                adatsor.Add(int.Parse(edzes[3]));
+                hetiedzes.Add(adatsor);
+            }
+            
+            valami();
+
+            foreach (var sor in hetiedzes)
+            {
+                Console.WriteLine(string.Join("Dik", sor));
+            }
+
+            valami2();
+            /*1.feladat A héten mennyit úszott összesen? */
+
+            int uszasossz = 0;
+            for (int i5 = 0; i5 < hetiedzes.Count; i5++)
+            {
+                uszasossz += (int)hetiedzes[i5][3];
+                
+            }
+            Console.WriteLine($"A héten ennyi percet úszott {uszasossz}perc");
+
+
+            /*3.feladat Melyik napon úszott a legtöbbet és mennyit? */
+
+            int maxuszas = 0;
+            string nap = "";
+            int i = 0;
+            while ( i < hetiedzes.Count)
+            {
+                if (maxuszas < (int)hetiedzes[i][3]) 
+                {
+                    maxuszas = (int)hetiedzes[i][3];
+                    nap = (string)hetiedzes[i][0];
+                }
+                i++;
+
+
+            }
+            Console.WriteLine($"A héten ennyi volt a legtöbb  úszás {maxuszas}perc  és ezen a napon volt {nap}.");
+
+            /*4.feladat Mennyit mozgott a héten összesen */
+            int kardioossz = 0;
+            int sulyzoossz = 0;
+            int mozgossz = 0;
+
+            for (int i2 = 0; i2 < hetiedzes.Count; i2++)
+            {
+                kardioossz += (int)hetiedzes[i2][1];
+                sulyzoossz += (int)hetiedzes[i2][2];
+                mozgossz += (int)hetiedzes[i2][1] + (int)hetiedzes[i2][2] + (int)hetiedzes[i2][3];
+            }
+            Console.WriteLine($"A héten ennyit kardiozott {kardioossz}perc és ennyit sulyzózott {sulyzoossz}perc valamint ennyit usszott {uszasossz}perc és így a héten {mozgossz}percet mozgott összesen.");
+
+            /*3.feladat Melyik napon kardiozott a legtöbbet és a legkevesebbet és mennyit? */
+
+            int maxkardio = 0;
+            int minkardio = 1000;
+            string nap2 = "";
+            string kardionap = "";
+            for (int i3 = 0; i3 < hetiedzes.Count; i3++)
+            {
+                if (maxkardio < (int)hetiedzes[i3][1])
+                {
+                    maxkardio = (int)hetiedzes[i3][1];
+                    nap2 = (string)hetiedzes[i3][0];
+                }
+                else if (minkardio > (int)hetiedzes[i3][1]) 
+                { 
+                    minkardio = (int)hetiedzes[i3][1];
+                    kardionap = (string)hetiedzes[i3][0];
+                }
+
+            }
+            Console.WriteLine($"A héten ennyi volt a legtöbb  kardiózás {maxkardio}perc  és ezen a napon volt {nap2}.A héten ennyi volt a legkevesebb kardiózás {minkardio}perc és ezen napon volt {kardionap}");
+            /*3.feladat Melyik napon sulyzozott a legtöbbet és a legkevesebbet és mennyit? */
+
+            int maxsulyozas = 0;
+            int minsulyozas = 1000;
+            string nap3 = "";
+            string sulyozasnap = "";
+            for (int i4 = 0; i4 < hetiedzes.Count; i4++)
+            {
+                if (maxsulyozas < (int)hetiedzes[i4][2])
+                {
+                    maxsulyozas = (int)hetiedzes[i4][2];
+                    nap3 = (string)hetiedzes[i4][0];
+                }
+                else if (minsulyozas > (int)hetiedzes[i4][2])
+                {
+                    minsulyozas = (int)hetiedzes[i4][2];
+                    sulyozasnap = (string)hetiedzes[i4][0];
+                }
+
+            }
+            Console.WriteLine($"A héten ennyi volt a legtöbb súlyemelés {maxsulyozas}perc  és ezen a napon volt {nap3}. A héten ennyi volt a legkevesebb súlyzózás {minsulyozas}perc és ezen napon volt {sulyozasnap} ");
+            
+
+
+
+            /*5.feladat Többet úsztál e mint az alanyunk */
+            Console.WriteLine("Hány percet úsztál a héten ");
+            string uszas = Console.ReadLine();
+
+            try
+            {
+                int uszas2 = int.Parse(uszas);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Nem számot adtál meg");
+                return;
+            }
+            int uszas3 = int.Parse(uszas);
+
+            if (uszas3 > uszasossz)
+            {
+                Console.WriteLine("Többet úsztál mint az alanyunk");
+            }
+            else
+            {
+                Console.WriteLine("Kevesebbet úsztál mint az alanyunk");
+            }
+
+        }
+    }
+}
